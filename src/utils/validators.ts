@@ -42,35 +42,20 @@ export function validateLoginForm(email: string, password: string): ValidationRe
   };
 }
 
-export function validateRegisterForm(name: string, phone: string, email: string, password: string): ValidationResult {
+export function validateRegisterForm(nombre: string, numero_iden: string, email: string, password: string): ValidationResult {
   const errors: FormErrors = {};
 
-  if (!validateRequired(name)) {
-    errors.name = 'El nombre es requerido';
-  }
+  if (!validateRequired(nombre)) errors.nombre = 'El nombre es requerido';
+  if (!validateRequired(numero_iden)) errors.numero_iden = 'El número de identificación es requerido';
+  else if (!validatePhone(numero_iden)) errors.numero_iden = 'Formato inválido';
 
-  if (!validateRequired(phone)) {
-    errors.phone = 'El teléfono es requerido';
-  } else if (!validatePhone(phone)) {
-    errors.phone = 'Formato de teléfono inválido';
-  }
+  if (!validateRequired(email)) errors.email = 'El email es requerido';
+  else if (!validateEmail(email)) errors.email = 'Email inválido';
 
-  if (!validateRequired(email)) {
-    errors.email = 'El email es requerido';
-  } else if (!validateEmail(email)) {
-    errors.email = 'Email inválido';
-  }
+  if (!validateRequired(password)) errors.password = 'La contraseña es requerida';
+  else if (!validatePassword(password)) errors.password = 'La contraseña debe tener al menos 8 caracteres';
 
-  if (!validateRequired(password)) {
-    errors.password = 'La contraseña es requerida';
-  } else if (!validatePassword(password)) {
-    errors.password = 'La contraseña debe tener al menos 8 caracteres';
-  }
-
-  return {
-    isValid: Object.keys(errors).length === 0,
-    errors
-  };
+  return { isValid: Object.keys(errors).length === 0, errors };
 }
 
 export function validateClientForm(name: string, identification: string, phone: string, address: string): ValidationResult {

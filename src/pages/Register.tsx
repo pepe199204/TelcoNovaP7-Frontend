@@ -10,10 +10,10 @@ import Layout from '../components/Layout';
 
 export default function Register() {
   const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    email: '',
-    password: ''
+      nombre: '',
+      numero_iden: '',
+      email: '',
+      password: ''
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isLoading, setIsLoading] = useState(false);
@@ -32,8 +32,8 @@ export default function Register() {
     e.preventDefault();
     
     const validation = validateRegisterForm(
-      formData.name,
-      formData.phone,
+      formData.nombre,
+      formData.numero_iden,
       formData.email,
       formData.password
     );
@@ -77,21 +77,21 @@ export default function Register() {
           <form onSubmit={handleSubmit}>
             <Input
               label="Nombre completo"
-              name="name"
-              value={formData.name}
+              name="nombre"
+              value={formData.nombre}
               onChange={handleChange}
-              error={errors.name}
+              error={errors.nombre}
               placeholder="Ingrese su nombre completo"
               required
             />
 
             <Input
-              label="Teléfono"
-              name="phone"
-              value={formData.phone}
+              label="número de identificación"
+              name="numero_iden"
+              value={formData.numero_iden}
               onChange={handleChange}
-              error={errors.phone}
-              placeholder="+57 300 123 4567"
+              error={errors.numero_iden}
+              placeholder="Cc"
               required
             />
 

@@ -126,7 +126,7 @@ export default function Clients() {
             Registro de Cliente
           </h1>
           <p className="text-gray-600">
-            Registrado por: <span className="font-semibold">{user?.name}</span>
+            Registrado por: <span className="font-semibold">{user?.nombre}</span>
           </p>
         </div>
 

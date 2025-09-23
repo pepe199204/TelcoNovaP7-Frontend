@@ -57,6 +57,23 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        // TelcoNova custom colors
+        "telco-primary": "hsl(var(--telco-blue-900))",
+        "telco-success": "hsl(var(--telco-green-600))",
+        "telco-blue": {
+          900: "hsl(var(--telco-blue-900))",
+          800: "hsl(var(--telco-blue-800))",
+          700: "hsl(var(--telco-blue-700))",
+        },
+        "telco-green": {
+          600: "hsl(var(--telco-green-600))",
+          500: "hsl(var(--telco-green-500))",
+        },
+        "telco-gray": {
+          100: "hsl(var(--telco-gray-100))",
+          600: "hsl(var(--telco-gray-600))",
+          800: "hsl(var(--telco-gray-800))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

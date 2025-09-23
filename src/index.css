@@ -2,35 +2,55 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* TelcoNova SupportSuite Design System - Based on Figma specification */
 
 @layer base {
   :root {
+    /* Brand Colors - TelcoNova */
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 210 20% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 210 20% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 210 20% 15%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* TelcoNova Blue - Primary brand color */
+    --primary: 211 80% 18%;  /* #0E2A47 - Dark blue background */
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* TelcoNova Green - Success/Action color */
+    --secondary: 149 50% 42%;  /* #2FA36B - Green for actions */
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 211 80% 18%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Additional TelcoNova colors */
+    --telco-blue-900: 211 80% 18%;  /* #0E2A47 */
+    --telco-blue-800: 211 70% 25%;
+    --telco-blue-700: 211 60% 35%;
+    --telco-green-600: 149 50% 42%; /* #2FA36B */
+    --telco-green-500: 149 55% 50%;
+    --telco-gray-100: 210 20% 96%;
+    --telco-gray-600: 215 16% 47%;
+    --telco-gray-800: 210 20% 25%;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--telco-blue-900)), hsl(var(--telco-blue-800)));
+    --gradient-success: linear-gradient(135deg, hsl(var(--telco-green-600)), hsl(var(--telco-green-500)));
+
+    /* Shadows */
+    --shadow-card: 0 4px 6px -1px hsl(var(--telco-blue-900) / 0.1);
+    --shadow-form: 0 10px 15px -3px hsl(var(--telco-blue-900) / 0.1);
+    --shadow-button: 0 2px 4px hsl(var(--telco-green-600) / 0.2);
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
@@ -56,20 +76,20 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 211 80% 18%;
+    --foreground: 0 0% 100%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 211 70% 25%;
+    --card-foreground: 0 0% 100%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 211 70% 25%;
+    --popover-foreground: 0 0% 100%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 0 0% 100%;
+    --primary-foreground: 211 80% 18%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 149 50% 42%;
+    --secondary-foreground: 0 0% 100%;
 
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
@@ -100,6 +120,138 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+  }
+
+  /* Custom utility classes for TelcoNova */
+  .bg-telco-primary {
+    background: hsl(var(--telco-blue-900));
+  }
+
+  .bg-telco-success {
+    background: hsl(var(--telco-green-600));
+  }
+
+  .text-telco-primary {
+    color: hsl(var(--telco-blue-900));
+  }
+
+  .text-telco-success {
+    color: hsl(var(--telco-green-600));
+  }
+
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .gradient-success {
+    background: var(--gradient-success);
+  }
+
+  .shadow-telco-card {
+    box-shadow: var(--shadow-card);
+  }
+
+  .shadow-telco-form {
+    box-shadow: var(--shadow-form);
+  }
+
+  .shadow-telco-button {
+    box-shadow: var(--shadow-button);
+  }
+
+  /* Form styles */
+  .form-container {
+    @apply bg-white rounded-lg shadow-telco-form p-6 max-w-md mx-auto;
+  }
+
+  .form-field {
+    @apply space-y-2;
+  }
+
+  .form-input {
+    @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-telco-primary focus:border-transparent transition-all duration-200;
+  }
+
+  .form-error {
+    @apply text-destructive text-sm mt-1;
+  }
+
+  /* Button variants */
+  .btn-telco-primary {
+    @apply bg-telco-primary text-white px-6 py-3 rounded-lg font-medium shadow-telco-button hover:opacity-90 transition-all duration-200;
+  }
+
+  .btn-telco-success {
+    @apply bg-telco-success text-white px-6 py-3 rounded-lg font-medium shadow-telco-button hover:opacity-90 transition-all duration-200;
+  }
+
+  .btn-telco-outline {
+    @apply border-2 border-telco-primary text-telco-primary px-6 py-3 rounded-lg font-medium hover:bg-telco-primary hover:text-white transition-all duration-200;
+  }
+
+  /* Layout utilities */
+  .container-telco {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .page-header {
+    @apply bg-white shadow-sm border-b;
+  }
+
+  .card-telco {
+    @apply bg-white rounded-lg shadow-telco-card p-6 border border-gray-100;
+  }
+
+  /* Dashboard grid */
+  .dashboard-grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6;
+  }
+
+  .dashboard-card {
+    @apply bg-white rounded-xl shadow-telco-card p-6 hover:shadow-lg transition-shadow duration-200 cursor-pointer border border-gray-100;
+  }
+
+  .dashboard-card:hover {
+    @apply transform -translate-y-1 transition-transform duration-200;
+  }
+
+  /* Table styles */
+  .table-telco {
+    @apply min-w-full divide-y divide-gray-200;
+  }
+
+  .table-telco th {
+    @apply px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50;
+  }
+
+  .table-telco td {
+    @apply px-6 py-4 whitespace-nowrap text-sm text-gray-900;
+  }
+
+  /* Status badges */
+  .status-open {
+    @apply inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800;
+  }
+
+  .status-progress {
+    @apply inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800;
+  }
+
+  .status-closed {
+    @apply inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800;
+  }
+
+  /* Priority badges */
+  .priority-high {
+    @apply inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800;
+  }
+
+  .priority-medium {
+    @apply inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-orange-100 text-orange-800;
+  }
+
+  .priority-low {
+    @apply inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800;
   }
 }

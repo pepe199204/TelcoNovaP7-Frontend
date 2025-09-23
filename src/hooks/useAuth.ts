@@ -57,20 +57,40 @@ export function useAuth() {
     setIsLoading(false);
   }, []);
 
-  const login = async (credentials: LoginCredentials): Promise<{ success: boolean; message?: string }> => {
-    const mockUser = MOCK_USERS.find(
-      u => u.email === credentials.email && u.password === credentials.password
-    );
+  const login = async (credentials: LoginCredentials) => {
+    const API_URL = import.meta.env.VITE_API_URL;
+    try {
+      const res = await fetch(`${API_URL}/api/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(credentials)
+      });
 
-    if (mockUser) {
-      const { password, ...userWithoutPassword } = mockUser;
-      setUser(userWithoutPassword);
-      localStorage.setItem('telconova_user', JSON.stringify(userWithoutPassword));
-      return { success: true };
+      const data = await res.json();
+
+      if (res.ok && data.accessToken) {
+        localStorage.setItem('telconova_token', data.accessToken);
+
+        const user: User = {
+          id: data.user.id,
+          name: data.user.name,
+          email: data.user.email,
+          role: data.user.role
+        };
+        setUser(user);
+        localStorage.setItem('telconova_user', JSON.stringify(user));
+
+        return { success: true };
+
+      } else {
+        return { success: false, message: data.message || 'Credenciales inválidas' };
+      }
+    } catch (error) {
+      return { success: false, message: 'Error de conexión con el servidor' };
     }
-
-    return { success: false, message: 'Credenciales inválidas' };
   };
+
+
 
   const register = async (data: RegisterData): Promise<{ success: boolean; message?: string }> => {
     // Check if user already exists

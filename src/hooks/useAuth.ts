@@ -66,6 +66,7 @@ export function useAuth() {
       });
 
       const data: { user: User; accessToken: string } = await res.json();
+      console.log(data)
 
       if (res.ok && data.accessToken) {
         localStorage.setItem('telconova_token', data.accessToken);

@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 
 export interface User {
-  id: number;       
+  id: string;
   nombre: string;
   email: string;
-  rol: string;      // puede ser "OPERARIO", "ADMIN", etc.
+  rol: string; // "OPERARIO", "ADMIN", etc.
 }
 
 export interface LoginCredentials {
@@ -15,101 +15,108 @@ export interface LoginCredentials {
 export interface RegisterData {
   nombre: string;
   email: string;
-  numero_iden: string
+  numero_iden: string;
   password: string;
 }
-
-// Mock users for demo
-// const MOCK_USERS: Array<User & { password: string }> = [
-//   {
-//     id: '1',
-//     email: 'admin@telconova.co',
-//     password: 'Admin123!',
-//     name: 'Juan Andrés Medina',
-//     role: 'Admin',
-//     phone: '+57 300 123 4567'
-//   },
-//   {
-//     id: '2',
-//     email: 'tecnico@telconova.co',
-//     password: 'Tec12345!',
-//     name: 'Karolina Higuieta Marulanda',
-//     role: 'Técnico',
-//     phone: '+57 301 987 6543'
-//   }
-// ];
 
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    // Check if user is logged in on app start
-    const savedUser = localStorage.getItem('telconova_user');
-    if (savedUser) {
-      try {
-        setUser(JSON.parse(savedUser));
-      } catch (error) {
-        localStorage.removeItem('telconova_user');
-      }
-    }
-    setIsLoading(false);
-  }, []);
+  const API_URL = import.meta.env.VITE_API_URL;
 
+  // ✅ Cargar el usuario autenticado al iniciar
+  useEffect(() => {
+    const loadUser = async () => {
+      setIsLoading(true);
+      const token = localStorage.getItem('telconova_token');
+
+      if (!token) {
+        setIsLoading(false);
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_URL}/api/auth/me`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!res.ok) throw new Error('No se pudo obtener el usuario');
+
+        const data: User = await res.json();
+        setUser(data);
+        localStorage.setItem('telconova_user', JSON.stringify(data));
+      } catch (error) {
+        console.error('Error cargando usuario:', error);
+        localStorage.removeItem('telconova_token');
+        localStorage.removeItem('telconova_user');
+        setUser(null);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadUser();
+  }, [API_URL]);
+
+  // ✅ Login: guarda token y obtiene datos del usuario real
   const login = async (credentials: LoginCredentials) => {
-    const API_URL = import.meta.env.VITE_API_URL;
     try {
       const res = await fetch(`${API_URL}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(credentials)
+        body: JSON.stringify(credentials),
       });
 
-      const data: { user: User; accessToken: string } = await res.json();
-      console.log(data)
+      const data = await res.json();
 
-      if (res.ok && data.accessToken) {
-        localStorage.setItem('telconova_token', data.accessToken);
-        setUser(data.user);   // se usa tal cual
-        localStorage.setItem('telconova_user', JSON.stringify(data.user));
-        return { success: true };
-      } else {
+      if (!res.ok || !data.accessToken) {
         return { success: false, message: 'Credenciales inválidas' };
       }
+
+      // Guarda token
+      localStorage.setItem('telconova_token', data.accessToken);
+
+      // Llama al endpoint /me para obtener el usuario real
+      const meRes = await fetch(`${API_URL}/api/auth/me`, {
+        headers: {
+          Authorization: `Bearer ${data.accessToken}`,
+        },
+      });
+
+      const userData: User = await meRes.json();
+      setUser(userData);
+      localStorage.setItem('telconova_user', JSON.stringify(userData));
+
+      return { success: true };
+    } catch (error) {
+      console.error('Error en login:', error);
+      return { success: false, message: 'Error de conexión con el servidor' };
+    }
+  };
+
+  const register = async (data: RegisterData) => {
+    try {
+      const res = await fetch(`${API_URL}/api/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) return { success: false, message: 'Error en el registro' };
+
+      return { success: true };
     } catch {
       return { success: false, message: 'Error de conexión con el servidor' };
     }
   };
 
-
-
-const register = async (data: RegisterData) => {
-  const API_URL = import.meta.env.VITE_API_URL;
-  try {
-    const res = await fetch(`${API_URL}/api/auth/register`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-
-    const user: User = await res.json();
-    setUser(user);
-    localStorage.setItem('telconova_user', JSON.stringify(user));
-    return { success: true };
-  } catch {
-    return { success: false, message: 'Error de conexión con el servidor' };
-  }
-};
-
-
   const logout = () => {
     setUser(null);
     localStorage.removeItem('telconova_user');
-  };
-
-  const verifyCode = (code: string): boolean => {
-    // Mock verification - accepts "123456"
-    return code === '123456';
+    localStorage.removeItem('telconova_token');
   };
 
   return {
@@ -118,7 +125,6 @@ const register = async (data: RegisterData) => {
     login,
     register,
     logout,
-    verifyCode,
-    isAuthenticated: !!user
+    isAuthenticated: !!user,
   };
 }

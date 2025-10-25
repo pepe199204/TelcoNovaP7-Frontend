@@ -46,11 +46,11 @@ export default function Dashboard() {
     },
     {
       title: 'Informes',
-      description: 'Próximamente disponible',
+      description: 'ver estadísticas de los tipos de ordenes creadas',
       icon: BarChart3,
-      action: () => alert('Funcionalidad próximamente disponible'),
-      color: 'bg-gray-400',
-      disabled: true
+      action: () => navigate('/informes'),
+      color: 'bg-purple-400',
+      disabled: false
     }
   ];
 
@@ -60,7 +60,7 @@ export default function Dashboard() {
         {/* Welcome Section */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Bienvenido, {user?.name}
+            Bienvenido, {user?.rol}
           </h1>
           <p className="text-gray-600">
             Gestiona órdenes de trabajo y clientes desde tu panel principal

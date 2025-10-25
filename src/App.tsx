@@ -15,6 +15,7 @@ import OrderNew from "./pages/OrderNew";
 import OrdersList from "./pages/OrdersList";
 import OrderEdit from "./pages/OrderEdit";
 import NotFound from "./pages/NotFound";
+import ReportsDashboard from "./pages/ReportsDashboard";
 
 const queryClient = new QueryClient();
 
@@ -58,7 +59,14 @@ const App = () => (
               <OrderEdit />
             </ProtectedRoute>
           } />
-          
+          <Route
+            path="/informes"
+            element={
+              <ProtectedRoute>
+                <ReportsDashboard />
+              </ProtectedRoute>
+            }
+          />          
           {/* Catch-all route */}
           <Route path="*" element={<NotFound />} />
         </Routes>

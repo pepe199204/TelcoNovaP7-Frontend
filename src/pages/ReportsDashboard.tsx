@@ -85,13 +85,6 @@ export default function ReportsDashboard() {
           </div>
           <div className="flex flex-wrap gap-2 sm:gap-3">
             <Button
-              variant="outline"
-              onClick={handleRefresh}
-              className="flex items-center justify-center"
-            >
-              <RefreshCcw className="w-4 h-4 mr-2" /> Actualizar
-            </Button>
-            <Button
               className="btn-telco-primary flex items-center justify-center"
               onClick={handleExport}
             >

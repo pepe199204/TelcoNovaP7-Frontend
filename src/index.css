@@ -75,43 +75,54 @@
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
-  .dark {
-    --background: 211 80% 18%;
-    --foreground: 0 0% 100%;
+.dark {
+  filter: invert(1) hue-rotate(180deg);
+  /* --background: 220 28% 12%; /* Fondo general más oscuro pero no negro */
+  /*--foreground: 0 0% 100%;
 
-    --card: 211 70% 25%;
-    --card-foreground: 0 0% 100%;
+  --card: 220 26% 16%;
+  --card-foreground: 0 0% 100%;
 
-    --popover: 211 70% 25%;
-    --popover-foreground: 0 0% 100%;
+  --popover: 220 26% 18%;
+  --popover-foreground: 0 0% 100%;
 
-    --primary: 0 0% 100%;
-    --primary-foreground: 211 80% 18%;
+  --primary: 149 55% 50%;
+  --primary-foreground: 0 0% 100%;
 
-    --secondary: 149 50% 42%;
-    --secondary-foreground: 0 0% 100%;
+  --secondary: 211 70% 60%;
+  --secondary-foreground: 0 0% 100%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+  --muted: 220 15% 22%;
+  --muted-foreground: 210 20% 80%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+  --accent: 211 60% 30%;
+  --accent-foreground: 0 0% 100%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
+  --destructive: 0 70% 45%;
+  --destructive-foreground: 0 0% 100%;
+
+
+  --border: 220 20% 25%;
+  --input: 220 20% 25%;
+  --ring: 210 30% 85%;
+
+  --sidebar-background: 220 22% 14%;
+  --sidebar-foreground: 0 0% 100%;
+  --sidebar-primary: 149 50% 42%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 220 15% 20%;
+  --sidebar-accent-foreground: 0 0% 100%;
+  --sidebar-border: 220 15% 20%;
+  --sidebar-ring: 210 25% 70%;
+
+
+  --shadow-card: 0 4px 10px -2px hsl(0 0% 0% / 0.5);
+  --shadow-form: 0 10px 20px -3px hsl(0 0% 0% / 0.5);
+  --shadow-button: 0 2px 6px hsl(0 0% 0% / 0.4);
+  */
+}
+
 }
 
 @layer base {
@@ -255,3 +266,96 @@
     @apply inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800;
   }
 }
+
+
+/* 
+
+@layer components {
+  .btn-telco-primary {
+    @apply inline-flex items-center justify-center px-5 py-2.5 rounded-lg font-medium transition-all duration-200
+      bg-telco-primary text-white shadow-md hover:opacity-90 active:scale-95;
+  }
+
+  .dark .btn-telco-primary {
+    @apply bg-telco-primary text-white shadow-lg shadow-telco-primary/20;
+  }
+
+  .btn-telco-outline {
+    @apply inline-flex items-center justify-center px-5 py-2.5 rounded-lg font-medium transition-all duration-200
+      border border-gray-300 text-gray-800 bg-white hover:bg-gray-100 active:scale-95;
+  }
+
+  .dark .btn-telco-outline {
+    @apply border-gray-600 text-gray-100 bg-gray-800 hover:bg-gray-700;
+  }
+
+  .page-header {
+    @apply bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 shadow-sm transition-colors duration-300;
+  }
+
+  .container-telco {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .card-telco {
+    @apply bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm p-6 transition-colors duration-300;
+  }
+
+  .text-telco-muted {
+    @apply text-gray-600 dark:text-gray-300;
+  }
+
+  body {
+    @apply bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300;
+  }
+
+  .menu-panel {
+    @apply bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg;
+  }
+
+  .menu-item {
+    @apply text-sm text-gray-800 dark:text-gray-100 px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors;
+  }
+}
+
+
+.dashboard-card {
+  @apply bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 
+         rounded-xl shadow-sm p-6 transition-colors duration-300 text-center;
+}
+
+.dark .dashboard-card h3 {
+  @apply text-gray-100;
+}
+
+.dark .dashboard-card p {
+  @apply text-gray-400;
+}
+
+
+.dashboard-icon {
+  @apply w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3;
+}
+
+.dark .dashboard-icon svg {
+  @apply text-white;
+}
+
+
+.dashboard-stats {
+  @apply bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 
+         rounded-xl text-center py-3 transition-colors duration-300;
+}
+
+.dashboard-stats h4 {
+  @apply text-gray-700 dark:text-gray-100 font-semibold;
+}
+
+.dashboard-stats p {
+  @apply text-gray-600 dark:text-gray-400;
+}
+
+.dark .dashboard-title,
+.dark .dashboard-subtitle {
+  @apply text-gray-200;
+} */
